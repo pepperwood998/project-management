@@ -14,6 +14,16 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "Release")
 public class Release {
 
+    public Release() {
+    }
+
+    public Release(ReleaseCriteria releaseCriteria) {
+        this.setName(releaseCriteria.getName());
+        this.setDescription(releaseCriteria.getDescription());
+        this.setCreatedAt(LocalDateTime.now());
+        this.setCreatedBy(releaseCriteria.getCreatedBy());
+    }
+
     @Id
     @GenericGenerator(name = "release_id", strategy = "com.tuan.exercise.projman.util.GeneralIdentifierGenerator")
     @GeneratedValue(generator = "release_id")

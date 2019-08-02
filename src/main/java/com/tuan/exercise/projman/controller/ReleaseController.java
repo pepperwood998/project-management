@@ -1,7 +1,5 @@
 package com.tuan.exercise.projman.controller;
 
-import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,11 +19,7 @@ public class ReleaseController {
 
     @PostMapping(value = "/create")
     public Release addNewRelease(@RequestBody ReleaseCriteria payload) {
-        Release release = new Release();
-        release.setName(payload.getName());
-        release.setDescription(payload.getDescription());
-        release.setCreatedAt(LocalDateTime.now());
-        release.setCreatedBy(payload.getCreatedBy());
+        Release release = new Release(payload);
 
         releaseService.save(release);
         return release;
