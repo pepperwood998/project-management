@@ -3,29 +3,31 @@ package com.tuan.exercise.projman.controller;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tuan.exercise.projman.entity.Release;
-import com.tuan.exercise.projman.repository.ReleaseRepository;
+import com.tuan.exercise.projman.entity.ReleaseCriteria;
+import com.tuan.exercise.projman.service.ReleaseService;
 
 @RestController
-@RequestMapping("/release")
+@RequestMapping("/api/release")
 public class ReleaseController {
 
     @Autowired
-    private ReleaseRepository releaseRepository;
+    private ReleaseService releaseService;
 
-    @GetMapping("/add")
-    public Release addNewRelease() {
+    @PostMapping(value = "/create")
+    public Release addNewRelease(@RequestBody ReleaseCriteria payload) {
         Release release = new Release();
-        release.setName("1.0.0");
-        release.setDescription("Description for Release 1.0.0");
+        release.setName(payload.getName());
+        release.setDescription(payload.getDescription());
         release.setCreatedAt(LocalDateTime.now());
-        release.setCreatedBy("TuanDT");
+        release.setCreatedBy(payload.getCreatedBy());
 
-        releaseRepository.addRelease(release);
+        releaseService.save(release);
         return release;
     }
 }
