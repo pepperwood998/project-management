@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class WebController {
 
+    @GetMapping(value = { "/", "/index" })
+    public String index() {
+        return "index";
+    }
+
     @GetMapping(value = "/release/add-form")
     public String getReleaseAddForm() {
         return "release-form";

@@ -1,10 +1,22 @@
-package com.tuan.exercise.projman.entity;
+package com.tuan.exercise.projman.pojo;
+
+import java.time.LocalDateTime;
 
 public class ReleaseCriteria {
 
+    private String id;
     private String name;
     private String description;
+    private LocalDateTime createdAt;
     private String createdBy;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -20,6 +32,14 @@ public class ReleaseCriteria {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getCreatedBy() {

@@ -10,6 +10,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.tuan.exercise.projman.pojo.ReleaseCriteria;
+
 @Entity
 @Table(name = "Release")
 public class Release {
@@ -66,8 +68,8 @@ public class Release {
         this.description = description;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public String getCreatedAt() {
+        return createdAt.toString();
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
@@ -80,5 +82,11 @@ public class Release {
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public void update(ReleaseCriteria release) {
+        this.setName(release.getName());
+        this.setDescription(release.getDescription());
+        this.setCreatedBy(release.getCreatedBy());
     }
 }
