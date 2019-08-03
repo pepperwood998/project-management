@@ -2,7 +2,7 @@ package com.tuan.exercise.projman.pojo;
 
 import java.time.LocalDateTime;
 
-public class ReleaseCriteria {
+public class ReleasePojo {
 
     private String id;
     private String name;

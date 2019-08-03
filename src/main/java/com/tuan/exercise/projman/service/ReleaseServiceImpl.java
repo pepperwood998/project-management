@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.tuan.exercise.projman.entity.Release;
 import com.tuan.exercise.projman.exception.DuplicateReleaseVersionNameException;
 import com.tuan.exercise.projman.exception.ReleaseNotFoundException;
-import com.tuan.exercise.projman.pojo.ReleaseCriteria;
+import com.tuan.exercise.projman.pojo.ReleasePojo;
 import com.tuan.exercise.projman.repository.ReleaseRepository;
 
 @Service
@@ -21,7 +21,7 @@ public class ReleaseServiceImpl implements ReleaseService {
 
     @Override
     public List<Release> findAll(int pageInd, int pageSize) {
-        return releaseRepository.findAll(PageRequest.of(pageInd, pageSize, Direction.ASC, "name")).getContent();
+        return releaseRepository.findAll(PageRequest.of(pageInd, pageSize, Direction.ASC, "createdAt")).getContent();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ReleaseServiceImpl implements ReleaseService {
     }
 
     @Override
-    public Release update(ReleaseCriteria release) throws DuplicateReleaseVersionNameException, ReleaseNotFoundException {
+    public Release update(ReleasePojo release) throws DuplicateReleaseVersionNameException, ReleaseNotFoundException {
         if (releaseRepository.existsByName(release.getName())) {
             throw new DuplicateReleaseVersionNameException("A Release with name " + release.getName() +" has already existed");
         }

@@ -15,7 +15,7 @@ import com.tuan.exercise.projman.entity.Release;
 import com.tuan.exercise.projman.exception.DuplicateReleaseVersionNameException;
 import com.tuan.exercise.projman.exception.ReleaseNotFoundException;
 import com.tuan.exercise.projman.pojo.JsonDataWrapper;
-import com.tuan.exercise.projman.pojo.ReleaseCriteria;
+import com.tuan.exercise.projman.pojo.ReleasePojo;
 import com.tuan.exercise.projman.service.ReleaseService;
 
 @RestController
@@ -44,7 +44,7 @@ public class ReleaseController {
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<JsonDataWrapper> addNewRelease(@RequestBody ReleaseCriteria payload) {
+    public ResponseEntity<JsonDataWrapper> addNewRelease(@RequestBody ReleasePojo payload) {
         Release release = new Release(payload);
 
         releaseService.create(release);
@@ -56,7 +56,7 @@ public class ReleaseController {
     }
 
     @PostMapping(value = "/update")
-    public ResponseEntity<JsonDataWrapper> updateRelease(@RequestBody ReleaseCriteria payload)
+    public ResponseEntity<JsonDataWrapper> updateRelease(@RequestBody ReleasePojo payload)
             throws DuplicateReleaseVersionNameException, ReleaseNotFoundException {
         Release newRelease = releaseService.update(payload);
 

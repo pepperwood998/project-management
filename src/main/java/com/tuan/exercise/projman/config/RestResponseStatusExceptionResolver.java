@@ -11,6 +11,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.tuan.exercise.projman.exception.DuplicateReleaseVersionNameException;
+import com.tuan.exercise.projman.exception.DuplicateServiceNameException;
 import com.tuan.exercise.projman.exception.ReleaseNotFoundException;
 import com.tuan.exercise.projman.pojo.JsonApiError;
 
@@ -25,8 +26,11 @@ public class RestResponseStatusExceptionResolver extends ResponseEntityException
         return getResponseEntity(message, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({ MethodArgumentTypeMismatchException.class, DuplicateReleaseVersionNameException.class,
-            ReleaseNotFoundException.class })
+    @ExceptionHandler({ 
+        MethodArgumentTypeMismatchException.class,
+        DuplicateReleaseVersionNameException.class,
+        DuplicateServiceNameException.class,
+        ReleaseNotFoundException.class })
     public ResponseEntity<Object> handleUnhandledException(Exception ex, WebRequest request) {
         String message = "";
 

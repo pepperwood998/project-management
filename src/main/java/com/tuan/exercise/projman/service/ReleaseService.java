@@ -5,7 +5,7 @@ import java.util.List;
 import com.tuan.exercise.projman.entity.Release;
 import com.tuan.exercise.projman.exception.DuplicateReleaseVersionNameException;
 import com.tuan.exercise.projman.exception.ReleaseNotFoundException;
-import com.tuan.exercise.projman.pojo.ReleaseCriteria;
+import com.tuan.exercise.projman.pojo.ReleasePojo;
 
 public interface ReleaseService {
 
@@ -15,5 +15,5 @@ public interface ReleaseService {
 
     Release delete(String releaseId) throws ReleaseNotFoundException;
 
-    Release update(ReleaseCriteria release) throws DuplicateReleaseVersionNameException, ReleaseNotFoundException;
+    Release update(ReleasePojo release) throws DuplicateReleaseVersionNameException, ReleaseNotFoundException;
 }

@@ -8,9 +8,23 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.tuan.exercise.projman.pojo.ModulePojo;
+
 @Entity
 @Table(name = "Service")
-public class Service {
+public class Module {
+
+    public Module() {
+    }
+
+    public Module(ModulePojo modulePojo) {
+        this.setName(modulePojo.getName());
+        this.setEnvironment(modulePojo.getEnvironment());
+        this.setNamespace(modulePojo.getNamespace());
+        this.setOldVersion("0.0.0");
+        this.setNewVersion(modulePojo.getNewVersion());
+        this.setReleaseId(modulePojo.getReleaseId());
+    }
 
     @Id
     @GenericGenerator(name = "release_id", strategy = "com.tuan.exercise.projman.util.GeneralIdentifierGenerator")
@@ -32,6 +46,9 @@ public class Service {
 
     @Column(name = "newVersion")
     private String newVersion;
+
+    @Column(name = "releaseId")
+    private String releaseId;
 
     public String getId() {
         return id;
@@ -79,5 +96,13 @@ public class Service {
 
     public void setNewVersion(String newVersion) {
         this.newVersion = newVersion;
+    }
+
+    public String getReleaseId() {
+        return releaseId;
+    }
+
+    public void setReleaseId(String releaseId) {
+        this.releaseId = releaseId;
     }
 }
