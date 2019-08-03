@@ -2,6 +2,7 @@ package com.tuan.exercise.projman.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -14,8 +15,11 @@ public interface ModuleRepository extends PagingAndSortingRepository<Module, Str
 
     public boolean existsByName(String name);
 
-    public List<Module> findAllByEnvironmentAndNamespace(String environment, String namespace, Pageable pageable);
+    public Page<Module> findAllByEnvironmentAndNamespace(
+            String environment, String namespace, Pageable pageable);
 
     @Query("select newVersion from Module as m where m.name = :name")
     public List<String> findAllVersionListByName(String name);
+
+    public long countByEnvironmentAndNamespace(String environment, String namespace);
 }

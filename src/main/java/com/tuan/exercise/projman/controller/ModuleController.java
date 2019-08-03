@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tuan.exercise.projman.entity.Module;
 import com.tuan.exercise.projman.exception.DuplicateServiceNameException;
-import com.tuan.exercise.projman.pojo.JsonDataWrapper;
+import com.tuan.exercise.projman.pojo.JsonSingleData;
+import com.tuan.exercise.projman.pojo.JsonPageableData;
 import com.tuan.exercise.projman.pojo.ModulePojo;
+import com.tuan.exercise.projman.pojo.Pagination;
 import com.tuan.exercise.projman.service.ModuleService;
 
 @RestController
@@ -25,12 +27,12 @@ public class ModuleController {
     private ModuleService moduleService;
 
     @GetMapping(value = "/list-by-env-ns")
-    public ResponseEntity<JsonDataWrapper> getModuleListByEnvAndNs(
+    public ResponseEntity<JsonPageableData<Module>> getModuleListByEnvAndNs(
             @RequestParam(name = "environment") String env,
             @RequestParam(name = "namespace") String ns,
             @RequestParam(name = "start", defaultValue = "0") int start,
             @RequestParam(name = "size", defaultValue = "10") int size) {
-        JsonDataWrapper result = new JsonDataWrapper();
+        JsonPageableData<Module> result = new JsonPageableData<>();
 
         List<Module> moduleList = moduleService.findAllByEnvironmentAndNamespace(env, ns, start, size);
         if (moduleList.isEmpty()) {
@@ -38,14 +40,21 @@ public class ModuleController {
         } else {
             result.setMessage("Found Modules");
         }
+        Pagination pagination = new Pagination();
+        pagination.setTotal(moduleService.countByEnvironmentAndNamespace(env, ns));
+        pagination.setOffset(start);
+        pagination.setSize(moduleList.size());
+
         result.setData(moduleList);
+        result.setPagination(pagination);
+
         return ResponseEntity.ok(result);
     }
-    
+
     @GetMapping(value = "/list-version-by-name")
-    public ResponseEntity<JsonDataWrapper> getModuleListByEnvAndNs(@RequestParam(name = "name") String name) {
-        JsonDataWrapper result = new JsonDataWrapper();
-        
+    public ResponseEntity<JsonPageableData<String>> getModuleListByEnvAndNs(@RequestParam(name = "name") String name) {
+        JsonPageableData<String> result = new JsonPageableData<>();
+
         List<String> versionList = moduleService.findAllVersionByName(name);
         if (versionList.isEmpty()) {
             result.setMessage("No Version found");
@@ -53,18 +62,19 @@ public class ModuleController {
             result.setMessage("Found Versions");
         }
         result.setData(versionList);
+        result.setPagination(null);
 
         return ResponseEntity.ok(result);
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<JsonDataWrapper> addNewService(@RequestBody ModulePojo payload)
+    public ResponseEntity<JsonSingleData> addNewService(@RequestBody ModulePojo payload)
             throws DuplicateServiceNameException {
         Module newModule = new Module(payload);
 
         moduleService.create(newModule);
 
-        JsonDataWrapper result = new JsonDataWrapper();
+        JsonSingleData result = new JsonSingleData();
         result.setMessage("New Service Saved");
         result.setData(newModule);
         return ResponseEntity.ok(result);

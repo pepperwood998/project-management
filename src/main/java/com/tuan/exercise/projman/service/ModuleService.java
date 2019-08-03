@@ -13,4 +13,6 @@ public interface ModuleService {
     List<String> findAllVersionByName(String name);
 
     Module create(Module module) throws DuplicateServiceNameException;
+
+    long countByEnvironmentAndNamespace(String env, String ns);
 }

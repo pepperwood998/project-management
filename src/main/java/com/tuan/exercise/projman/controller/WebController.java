@@ -10,14 +10,4 @@ public class WebController {
     public String index() {
         return "index";
     }
-
-    @GetMapping(value = "/release/list")
-    public String getReleaseList() {
-        return "release-list";
-    }
-
-    @GetMapping(value = "/release/add-form")
-    public String getReleaseAddForm() {
-        return "release-form";
-    }
 }

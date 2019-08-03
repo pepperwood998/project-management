@@ -16,4 +16,6 @@ public interface ReleaseService {
     Release delete(String releaseId) throws ReleaseNotFoundException;
 
     Release update(ReleasePojo release) throws DuplicateReleaseVersionNameException, ReleaseNotFoundException;
+
+    long countAll();
 }

@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.tuan.exercise.projman.config.Constant;
 import com.tuan.exercise.projman.entity.Release;
 import com.tuan.exercise.projman.exception.DuplicateReleaseVersionNameException;
 import com.tuan.exercise.projman.exception.ReleaseNotFoundException;
@@ -21,6 +22,9 @@ public class ReleaseServiceImpl implements ReleaseService {
 
     @Override
     public List<Release> findAll(int pageInd, int pageSize) {
+        if (pageSize > Constant.pagingLimit)
+            pageSize = Constant.pagingLimit;
+        
         return releaseRepository.findAll(PageRequest.of(pageInd, pageSize, Direction.ASC, "createdAt")).getContent();
     }
 
@@ -55,5 +59,10 @@ public class ReleaseServiceImpl implements ReleaseService {
         newRelease = releaseRepository.save(newRelease);
 
         return newRelease;
+    }
+
+    @Override
+    public long countAll() {
+        return releaseRepository.count();
     }
 }

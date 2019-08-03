@@ -14,64 +14,71 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tuan.exercise.projman.entity.Release;
 import com.tuan.exercise.projman.exception.DuplicateReleaseVersionNameException;
 import com.tuan.exercise.projman.exception.ReleaseNotFoundException;
-import com.tuan.exercise.projman.pojo.JsonDataWrapper;
+import com.tuan.exercise.projman.pojo.JsonPageableData;
+import com.tuan.exercise.projman.pojo.JsonSingleData;
+import com.tuan.exercise.projman.pojo.Pagination;
 import com.tuan.exercise.projman.pojo.ReleasePojo;
 import com.tuan.exercise.projman.service.ReleaseService;
 
 @RestController
 @RequestMapping("/api/release")
 public class ReleaseController {
-
+    
     @Autowired
     private ReleaseService releaseService;
 
     @GetMapping(value = "/list")
-    public ResponseEntity<JsonDataWrapper> getReleaseList(
+    public ResponseEntity<JsonPageableData<Release>> getReleaseList(
             @RequestParam(name = "start", defaultValue = "0") int start,
             @RequestParam(name = "size", defaultValue = "10") int size) {
-        JsonDataWrapper result = new JsonDataWrapper();
+        JsonPageableData<Release> result = new JsonPageableData<>();
 
         List<Release> releaseList = releaseService.findAll(start, size);
-
         if (releaseList.isEmpty()) {
             result.setMessage("No Release found");
         } else {
             result.setMessage("Found Releases");
         }
+        Pagination pagination = new Pagination();
+        pagination.setTotal(releaseService.countAll());
+        pagination.setOffset(start);
+        pagination.setSize(releaseList.size());
+        
         result.setData(releaseList);
+        result.setPagination(pagination);
 
         return ResponseEntity.ok(result);
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<JsonDataWrapper> addNewRelease(@RequestBody ReleasePojo payload) {
+    public ResponseEntity<JsonSingleData> addNewRelease(@RequestBody ReleasePojo payload) {
         Release release = new Release(payload);
 
         releaseService.create(release);
 
-        JsonDataWrapper result = new JsonDataWrapper();
+        JsonSingleData result = new JsonSingleData();
         result.setMessage("New Release Saved");
         result.setData(release);
         return ResponseEntity.ok(result);
     }
 
     @PostMapping(value = "/update")
-    public ResponseEntity<JsonDataWrapper> updateRelease(@RequestBody ReleasePojo payload)
+    public ResponseEntity<JsonSingleData> updateRelease(@RequestBody ReleasePojo payload)
             throws DuplicateReleaseVersionNameException, ReleaseNotFoundException {
         Release newRelease = releaseService.update(payload);
 
-        JsonDataWrapper result = new JsonDataWrapper();
+        JsonSingleData result = new JsonSingleData();
         result.setMessage("A Release Updated");
         result.setData(newRelease);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/delete")
-    public ResponseEntity<JsonDataWrapper> deleteRelease(@RequestParam(name = "id") String releaseId)
+    public ResponseEntity<JsonSingleData> deleteRelease(@RequestParam(name = "id") String releaseId)
             throws ReleaseNotFoundException {
         Release release = releaseService.delete(releaseId);
 
-        JsonDataWrapper result = new JsonDataWrapper();
+        JsonSingleData result = new JsonSingleData();
         result.setMessage("A Release Deleted");
         result.setData(release);
         return ResponseEntity.ok(result);

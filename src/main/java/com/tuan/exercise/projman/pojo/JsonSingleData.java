@@ -2,11 +2,11 @@ package com.tuan.exercise.projman.pojo;
 
 import org.springframework.http.HttpStatus;
 
-public class JsonDataWrapper extends JsonCommonResponse {
+public class JsonSingleData extends JsonCommonResponse {
 
     private Object data;
 
-    public JsonDataWrapper() {
+    public JsonSingleData() {
         this.setStatusCode(HttpStatus.OK.value());
         this.setStatusPhrase(HttpStatus.OK.getReasonPhrase());
     }

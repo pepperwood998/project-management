@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.tuan.exercise.projman.config.Constant;
 import com.tuan.exercise.projman.entity.Module;
 import com.tuan.exercise.projman.exception.DuplicateServiceNameException;
 import com.tuan.exercise.projman.repository.ModuleRepository;
@@ -19,8 +20,10 @@ public class ModuleServiceImpl implements ModuleService {
     @Override
     public List<Module> findAllByEnvironmentAndNamespace(
             String environment, String namespace, int pageInd, int pageSize) {
+        pageSize = pageSize > Constant.pagingLimit ? Constant.pagingLimit : pageSize;
+        
         return moduleRepository.findAllByEnvironmentAndNamespace(
-                environment, namespace, PageRequest.of(pageInd, pageSize));
+                environment, namespace, PageRequest.of(pageInd, pageSize)).getContent();
     }
 
     @Override
@@ -34,5 +37,10 @@ public class ModuleServiceImpl implements ModuleService {
             throw new DuplicateServiceNameException("A Service with name " + module.getName() + " has already existed");
 
         return moduleRepository.save(module);
+    }
+
+    @Override
+    public long countByEnvironmentAndNamespace(String env, String ns) {
+        return moduleRepository.countByEnvironmentAndNamespace(env, ns);
     }
 }
