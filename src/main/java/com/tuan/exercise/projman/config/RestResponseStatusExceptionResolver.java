@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.tuan.exercise.projman.exception.DuplicateReleaseVersionNameException;
 import com.tuan.exercise.projman.exception.ReleaseNotFoundException;
-import com.tuan.exercise.projman.pojo.ApiError;
+import com.tuan.exercise.projman.pojo.JsonApiError;
 
 @ControllerAdvice
 public class RestResponseStatusExceptionResolver extends ResponseEntityExceptionHandler {
@@ -29,6 +29,11 @@ public class RestResponseStatusExceptionResolver extends ResponseEntityException
             ReleaseNotFoundException.class })
     public ResponseEntity<Object> handleUnhandledException(Exception ex, WebRequest request) {
         String message = "";
+
+        if (ex instanceof ReleaseNotFoundException) {
+            message = ex.getMessage();
+            return getResponseEntity(message, HttpStatus.NOT_FOUND);
+        }
 
         if (ex instanceof MethodArgumentTypeMismatchException) {
             MethodArgumentTypeMismatchException e = (MethodArgumentTypeMismatchException) ex;
@@ -48,7 +53,7 @@ public class RestResponseStatusExceptionResolver extends ResponseEntityException
     }
 
     private ResponseEntity<Object> getResponseEntity(String message, HttpStatus status) {
-        ApiError apiError = new ApiError(status, message);
+        JsonApiError apiError = new JsonApiError(status, message);
         return new ResponseEntity<>(apiError, new HttpHeaders(), status);
     }
 }

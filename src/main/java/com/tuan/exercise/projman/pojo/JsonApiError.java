@@ -2,9 +2,9 @@ package com.tuan.exercise.projman.pojo;
 
 import org.springframework.http.HttpStatus;
 
-public class ApiError extends CommonResponse {
+public class JsonApiError extends JsonCommonResponse {
 
-    public ApiError(HttpStatus status, String message) {
+    public JsonApiError(HttpStatus status, String message) {
         this.setStatusCode(status.value());
         this.setStatusPhrase(status.getReasonPhrase());
         this.setMessage(message);

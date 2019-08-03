@@ -1,6 +1,6 @@
 package com.tuan.exercise.projman.pojo;
 
-public class CommonResponse {
+public class JsonCommonResponse {
 
     protected int statusCode;
     protected String statusPhrase;
