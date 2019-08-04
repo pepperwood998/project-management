@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-db>
+  <role-list>
+    <role-item key="USR">USER</role-item>
+    <role-item key="ADM">ADMIN</role-item>
+  </role-list>
+
+  <account>
+    <username>user</username>
+    <password>123</password>
+    <roles>
+      <role>USER</role>
+    </roles>
+  </account>
+  <account>
+    <username>admin</username>
+    <password>123</password>
+    <roles>
+      <role>USER</role>
+      <role>ADMIN</role>
+    </roles>
+  </account>
+</xml-db>
