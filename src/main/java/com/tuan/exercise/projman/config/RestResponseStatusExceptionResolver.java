@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.tuan.exercise.projman.exception.DuplicateReleaseVersionNameException;
 import com.tuan.exercise.projman.exception.DuplicateServiceNameException;
+import com.tuan.exercise.projman.exception.MissingRequestBodyField;
 import com.tuan.exercise.projman.exception.ReleaseNotFoundException;
 import com.tuan.exercise.projman.pojo.JsonApiError;
 
@@ -30,7 +31,8 @@ public class RestResponseStatusExceptionResolver extends ResponseEntityException
         MethodArgumentTypeMismatchException.class,
         DuplicateReleaseVersionNameException.class,
         DuplicateServiceNameException.class,
-        ReleaseNotFoundException.class })
+        ReleaseNotFoundException.class,
+        MissingRequestBodyField.class })
     public ResponseEntity<Object> handleUnhandledException(Exception ex, WebRequest request) {
         String message = "";
 
@@ -49,12 +51,12 @@ public class RestResponseStatusExceptionResolver extends ResponseEntityException
         return getResponseEntity(message, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({ IllegalArgumentException.class })
-    public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
-        String message = ex.getMessage();
-
-        return getResponseEntity(message, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler({ IllegalArgumentException.class })
+//    public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
+//        String message = ex.getMessage();
+//
+//        return getResponseEntity(message, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     private ResponseEntity<Object> getResponseEntity(String message, HttpStatus status) {
         JsonApiError apiError = new JsonApiError(status, message);

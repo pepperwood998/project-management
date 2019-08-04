@@ -2,12 +2,16 @@ package com.tuan.exercise.projman.pojo;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
+
 public class ReleasePojo {
 
     private String id;
+    @NotBlank(message = "{release.missing.name}")
     private String name;
     private String description;
     private LocalDateTime createdAt;
+    @NotBlank(message = "{release.missing.author}")
     private String createdBy;
 
     public String getId() {

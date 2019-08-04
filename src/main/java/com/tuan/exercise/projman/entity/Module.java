@@ -14,18 +14,6 @@ import com.tuan.exercise.projman.pojo.ModulePojo;
 @Table(name = "Service")
 public class Module {
 
-    public Module() {
-    }
-
-    public Module(ModulePojo modulePojo) {
-        this.setName(modulePojo.getName());
-        this.setEnvironment(modulePojo.getEnvironment());
-        this.setNamespace(modulePojo.getNamespace());
-        this.setOldVersion("0.0.0");
-        this.setNewVersion(modulePojo.getNewVersion());
-        this.setReleaseId(modulePojo.getReleaseId());
-    }
-
     @Id
     @GenericGenerator(name = "release_id", strategy = "com.tuan.exercise.projman.util.GeneralIdentifierGenerator")
     @GeneratedValue(generator = "release_id")
@@ -104,5 +92,24 @@ public class Module {
 
     public void setReleaseId(String releaseId) {
         this.releaseId = releaseId;
+    }
+
+    public static Module newMapping(ModulePojo pojo) {
+        pojo.setOldVersion("0.0.0");
+        return cloneMapping(pojo);
+    }
+
+    public static Module cloneMapping(ModulePojo pojo) {
+        Module module = new Module();
+
+        module.setId(pojo.getId());
+        module.setName(pojo.getName());
+        module.setEnvironment(pojo.getEnvironment());
+        module.setNamespace(pojo.getNamespace());
+        module.setOldVersion(pojo.getOldVersion());
+        module.setNewVersion(pojo.getNewVersion());
+        module.setReleaseId(pojo.getReleaseId());
+
+        return module;
     }
 }

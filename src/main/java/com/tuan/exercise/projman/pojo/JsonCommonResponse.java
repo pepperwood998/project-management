@@ -2,24 +2,24 @@ package com.tuan.exercise.projman.pojo;
 
 public class JsonCommonResponse {
 
-    protected int statusCode;
-    protected String statusPhrase;
+    protected int status;
+    protected String phrase;
     protected String message;
 
-    public int getStatusCode() {
-        return statusCode;
+    public int getStatus() {
+        return status;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-    public String getStatusPhrase() {
-        return statusPhrase;
+    public String getPhrase() {
+        return phrase;
     }
 
-    public void setStatusPhrase(String statusPhrase) {
-        this.statusPhrase = statusPhrase.toUpperCase();
+    public void setPhrase(String phrase) {
+        this.phrase = phrase.toUpperCase();
     }
 
     public String getMessage() {

@@ -3,10 +3,19 @@ package com.tuan.exercise.projman.pojo;
 import com.tuan.exercise.projman.config.Constant;
 
 public class Pagination {
-    private int limit = Constant.pagingLimit;
+
+    private int limit = Constant.getPagingLimit();
     private long total;
-    private int offset;
+    private int page;
     private int size;
+    private int offset;
+
+    public Pagination(long total, int page, int size) {
+        this.setTotal(total);
+        this.setPage(page);
+        this.setSize(size);
+        this.setOffset(page * size);
+    }
 
     public int getLimit() {
         return limit;
@@ -34,5 +43,13 @@ public class Pagination {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
     }
 }

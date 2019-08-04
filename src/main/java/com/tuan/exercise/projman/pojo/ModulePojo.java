@@ -1,13 +1,20 @@
 package com.tuan.exercise.projman.pojo;
 
+import javax.validation.constraints.NotBlank;
+
 public class ModulePojo {
 
     private String id;
+    @NotBlank(message = "{service.missing.name}")
     private String name;
+    @NotBlank(message = "{service.missing.environment}")
     private String environment;
+    @NotBlank(message = "{service.missing.namespace}")
     private String namespace;
     private String oldVersion;
+    @NotBlank(message = "{service.missing.new.version}")
     private String newVersion;
+    @NotBlank(message = "{service.missing.release.id}")
     private String releaseId;
 
     public String getId() {

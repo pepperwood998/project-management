@@ -16,16 +16,6 @@ import com.tuan.exercise.projman.pojo.ReleasePojo;
 @Table(name = "Release")
 public class Release {
 
-    public Release() {
-    }
-
-    public Release(ReleasePojo releaseCriteria) {
-        this.setName(releaseCriteria.getName());
-        this.setDescription(releaseCriteria.getDescription());
-        this.setCreatedAt(LocalDateTime.now());
-        this.setCreatedBy(releaseCriteria.getCreatedBy());
-    }
-
     @Id
     @GenericGenerator(name = "release_id", strategy = "com.tuan.exercise.projman.util.GeneralIdentifierGenerator")
     @GeneratedValue(generator = "release_id")
@@ -69,7 +59,7 @@ public class Release {
     }
 
     public String getCreatedAt() {
-        return createdAt.toString();
+        return createdAt == null ? null : createdAt.toString();
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
@@ -84,9 +74,28 @@ public class Release {
         this.createdBy = createdBy;
     }
 
-    public void update(ReleasePojo release) {
-        this.setName(release.getName());
-        this.setDescription(release.getDescription());
-        this.setCreatedBy(release.getCreatedBy());
+    public static Release newMapping(ReleasePojo pojo) {
+        pojo.setCreatedAt(LocalDateTime.now());
+        return cloneMapping(pojo);
+    }
+
+    public static Release cloneMapping(ReleasePojo pojo) {
+        Release release = new Release();
+
+        release.setId(pojo.getId());
+        release.setName(pojo.getName());
+        release.setDescription(pojo.getDescription());
+        release.setCreatedAt(pojo.getCreatedAt());
+        release.setCreatedBy(pojo.getCreatedBy());
+
+        return release;
+    }
+
+    public static Release updateMapping(Release updatedRelease, ReleasePojo pojo) {
+        updatedRelease.setName(pojo.getName());
+        updatedRelease.setDescription(pojo.getDescription());
+        updatedRelease.setCreatedBy(pojo.getCreatedBy());
+
+        return updatedRelease;
     }
 }

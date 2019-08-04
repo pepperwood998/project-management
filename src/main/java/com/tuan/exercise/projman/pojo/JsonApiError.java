@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 public class JsonApiError extends JsonCommonResponse {
 
     public JsonApiError(HttpStatus status, String message) {
-        this.setStatusCode(status.value());
-        this.setStatusPhrase(status.getReasonPhrase());
+        this.setStatus(status.value());
+        this.setPhrase(status.getReasonPhrase());
         this.setMessage(message);
     }
 }
